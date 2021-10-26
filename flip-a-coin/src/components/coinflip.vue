@@ -1,23 +1,61 @@
 <template>
- <div class="wrapper"><button @click="flipIt">Flip a coin</button></div>
+ <div class="wrapper">
+   <article v-if="toggle" class="choiceContainer">
+     <button ref="Heads" @click="selectHead">{{heads}}</button>
+     <button  @click="selectTails">{{tails}}</button>
+   </article>
+   <article v-else class="flipContainer">
+     <p>Your pick: {{selectedSide}}</p>
+    <button @click="flipIt">Flip a coin</button>
+    <p>{{coinflipText}}</p>
+    <h2>{{winnerText}}</h2>
+   </article>
+
+ </div>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
+  name: 'Coinflip',
+  data:function(){
+      return {
+        coinflipText:"",
+        selectedSide :"",
+        toggle:true,
+        heads:"Heads",
+        tails:"Tails",
+        winnerText:"",
+      }
   },
   methods: {
+    selectHead(){
+      this.selectedSide = this.heads;
+      this.toggle = false;
+    },
+    selectTails(){
+    this.selectedSide = this.tails;
+      this.toggle = false;
+    },
     flipIt(){
       let coinflip = Math.floor(Math.random() < 0.5);
-      console.log(coinflip);
+     if(coinflip ===1) {
+       this.coinflipText = "Heads";
+      
+    } else {
+        this.coinflipText = "Tails";
     }
-  }
+
+    if(this.selectedSide === this.coinflipText) {
+     setTimeout(()=> this.winnerText = "Fate said yes",2000)
+    } else {
+        setTimeout(()=> this.winnerText = "Fate said no",2000)
+    }
+  } 
+}
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style scoped>
 h3 {
   margin: 40px 0 0;
