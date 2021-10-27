@@ -1,6 +1,7 @@
 <template>
  <div class="wrapper">
    <article v-if="toggle" class="choiceContainer">
+     <h2>Choose either heads or tails</h2>
      <button ref="Heads" @click="selectHead">{{heads}}</button>
      <button  @click="selectTails">{{tails}}</button>
    </article>
@@ -9,6 +10,7 @@
     <button @click="flipIt">Flip a coin</button>
     <p>{{coinflipText}}</p>
     <h2>{{winnerText}}</h2>
+    <button v-if="buttonToggle" @click="toggleBack">Flip again</button>
    </article>
 
  </div>
@@ -22,6 +24,7 @@ export default {
         coinflipText:"",
         selectedSide :"",
         toggle:true,
+        buttonToggle:false,
         heads:"Heads",
         tails:"Tails",
         winnerText:"",
@@ -46,11 +49,21 @@ export default {
     }
 
     if(this.selectedSide === this.coinflipText) {
-     setTimeout(()=> this.winnerText = "Fate said yes",2000)
+     setTimeout(()=> this.winnerText = "Fate has granted your request" ,2000)
+     setTimeout(()=> this.buttonToggle= true,2000)
     } else {
-        setTimeout(()=> this.winnerText = "Fate said no",2000)
+        setTimeout(()=> this.winnerText = "Fate has denied your request",2000)
+          setTimeout(()=> this.buttonToggle= true,2000)
     }
-  } 
+  },
+  toggleBack(){
+    this.buttonToggle = false;
+    this.winnerText = "";
+    this.coinflipText ="";
+    this.selectedSide = "";
+      this.toggle = true;
+    
+  }
 }
 }
 </script>
