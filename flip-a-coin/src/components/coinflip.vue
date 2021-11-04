@@ -2,13 +2,14 @@
  <div class="wrapper">
    <article v-if="toggle" class="choiceContainer">
      <h2>Choose either heads or tails</h2>
-     <button value=1 @click="selectHead($event)">Heads</button>
-     <button value =2 @click="selectHead($event)"  >Tails</button>
+     <button value=0 @click="selectHead($event)">Heads</button>
+     <button value =1 @click="selectHead($event)"  >Tails</button>
    </article>
    <article v-else class="flipContainer">
-     <p>Your pick: {{selectedSide}}</p>
-    <button>Flip a coin</button>
-    <p>{{coinflipText}}</p>
+      <TheCoin/>
+     <p>Your pick: {{coinSide}}</p>
+    <button @click="flipIt()">Flip a coin</button>
+
     <h2>{{winnerText}}</h2>
     <button v-if="buttonToggle" @click="toggleBack">Flip again</button>
    </article>
@@ -17,12 +18,17 @@
 </template>
 
 <script>
+import TheCoin from "./TheCoin.vue"
 export default {
+  components: {
+    TheCoin
+  },
   name: 'Coinflip',
   data:function(){
       return {
-        coinflipText:" ",
-        selectedSide :" ",
+       // coinflipText:" ",
+        selectedSide :Number,
+        coinSide :String,
         toggle:true,
         buttonToggle:false,
         winnerText:"",
@@ -34,16 +40,29 @@ export default {
       this.selectedSide = this.heads;
       this.toggle = false;
      const value = e.target.value;
-      console.log(value);
-     if(value === "1") {
-      console.log("yo");
-     } else if(value === "2"){
-      console.log("yo2");
+  
+     if(value === "0") {
+       this.selectedSide = 0;
+       this.coinSide = "Heads"
+     } else if(value === "1"){
+       this.selectedSide =1
+        this.coinSide = "Heads"
      }
 
-      console.log(this.selectedSide);
+    
 
     },
+    flipIt(){
+      const value = Math.round(Math.random() < 0.5);
+     if(this.selectedSide  === value) {
+        this.winnerText ="Heads";
+  
+     } else {
+       this.winnerText ="Tails";
+ 
+     }
+      
+    } 
 
    
   },
